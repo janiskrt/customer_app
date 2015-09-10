@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  root 'users#index'
+  root 'login#index'
+  post 'login' => 'login#create'
+  get 'users' => 'users#index'
 end
