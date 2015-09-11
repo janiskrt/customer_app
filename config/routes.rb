@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   delete 'logout' => 'login#destroy'
   get 'users' => 'users#index'
   get 'categories' => 'categories#index'
+  get 'customers' => 'customers#index'
 
   resources :users
   resources :categories
+  resources :customers
 end

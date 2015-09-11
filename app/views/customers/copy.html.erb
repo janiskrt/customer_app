@@ -1,0 +1,28 @@
+<div class="col-md-12">
+  <h4>Customers</h4>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th  class="col-md-1">ID</th>
+          <th  class="col-md-2">Title</th>
+          <th  class="col-md-2">Email</th>
+          <th  class="col-md-2">Category</th>
+          <th  class="col-md-1">Options</th>
+        </tr>
+       </thead>
+       <tbody>
+          <tr>
+            <td>1</td>
+            <td>Test 1</td>
+            <td>Test 1</td>
+            <td>Test 1</td>
+            <td>Test 1</td>
+          </tr>
+       </tbody>
+    </table>   
+  </div>
+  <div class="col-md-12 text-right">
+    <%= will_paginate @posts %>
+  </div>
+</div>

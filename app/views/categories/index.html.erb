@@ -1,136 +1,44 @@
 <div class="col-md-12">
   <h4>Categories</h4>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th  class="col-md-2">ID</th>
-              <th  class="col-md-6">Title</th>
-              <th  class="col-md-2">Options</th>
-            </tr>
-          </thead>
-            <tbody id="myTable">
-              <% @categories.each do |categorie| %>
-                <tr>
-                  <td><%= categorie.id %></td>
-                  <td><%= categorie.title %></td>
-                  <td><%= categorie.title %></td>
-                </tr>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th  class="col-md-2">ID</th>
+          <th  class="col-md-6">Title</th>
+          <th  class="col-md-2">Options</th>
+        </tr>
+       </thead>
+       <tbody id="myTable">
+        <% @categories.each do |categorie| %>
+          <tr>
+            <td><%= categorie.id %></td>
+            <td><%= categorie.title %></td>
+            <td>
+              <%= link_to edit_category_path(categorie) do%>
+                <i class="fa fa-pencil" style="font-size: 18px"></i>
+              <% end %> 
+              <%= link_to  categorie, method: :delete, data: { confirm: 'Are you sure?' } do%>
+                <i class="fa fa-times" style="font-size: 18px"></i>
               <% end %>
-            </tbody>
-        </table>   
-      </div>
-      <div class="col-md-12 text-right">
-      <ul class="pagination" id="myPager"></ul>
-      </div>
+            </td>
+          </tr>
+        <% end %>
+       </tbody>
+    </table>   
+  </div>
+  <div class="col-md-12 text-right">
+   <div class="digg_pagination">
+    <%= will_paginate @categories %>
+   </div>
+  </div>
+  <%= form_for @categorie do |c| %>
+    <p>
+      <%= c.label :title, 'Category:' %>
+      <%= c.text_field :title  %>
+      <%= c.submit %>
+    </p>
+  <% end %>
 </div>
 
-<script>
-  $.fn.pageMe = function(opts){
-      var $this = this,
-          defaults = {
-              perPage: 7,
-              showPrevNext: false,
-              hidePageNumbers: false
-          },
-          settings = $.extend(defaults, opts);
-      
-      var listElement = $this;
-      var perPage = settings.perPage; 
-      var children = listElement.children();
-      var pager = $('.pager');
-      
-      if (typeof settings.childSelector!="undefined") {
-          children = listElement.find(settings.childSelector);
-      }
-      
-      if (typeof settings.pagerSelector!="undefined") {
-          pager = $(settings.pagerSelector);
-      }
-      
-      var numItems = children.size();
-      var numPages = Math.ceil(numItems/perPage);
 
-      pager.data("curr",0);
-      
-      if (settings.showPrevNext){
-          $('<li><a href="#" class="prev_link">«</a></li>').appendTo(pager);
-      }
-      
-      var curr = 0;
-      while(numPages > curr && (settings.hidePageNumbers==false)){
-          $('<li><a href="#" class="page_link">'+(curr+1)+'</a></li>').appendTo(pager);
-          curr++;
-      }
-      
-      if (settings.showPrevNext){
-          $('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
-      }
-      
-      pager.find('.page_link:first').addClass('active');
-      pager.find('.prev_link').hide();
-      if (numPages<=1) {
-          pager.find('.next_link').hide();
-      }
-      pager.children().eq(1).addClass("active");
-      
-      children.hide();
-      children.slice(0, perPage).show();
-      
-      pager.find('li .page_link').click(function(){
-          var clickedPage = $(this).html().valueOf()-1;
-          goTo(clickedPage,perPage);
-          return false;
-      });
-      pager.find('li .prev_link').click(function(){
-          previous();
-          return false;
-      });
-      pager.find('li .next_link').click(function(){
-          next();
-          return false;
-      });
-      
-      function previous(){
-          var goToPage = parseInt(pager.data("curr")) - 1;
-          goTo(goToPage);
-      }
-       
-      function next(){
-          goToPage = parseInt(pager.data("curr")) + 1;
-          goTo(goToPage);
-      }
-      
-      function goTo(page){
-          var startAt = page * perPage,
-              endOn = startAt + perPage;
-          
-          children.css('display','none').slice(startAt, endOn).show();
-          
-          if (page>=1) {
-              pager.find('.prev_link').show();
-          }
-          else {
-              pager.find('.prev_link').hide();
-          }
-          
-          if (page<(numPages-1)) {
-              pager.find('.next_link').show();
-          }
-          else {
-              pager.find('.next_link').hide();
-          }
-          
-          pager.data("curr",page);
-          pager.children().removeClass("active");
-          pager.children().eq(page+1).addClass("active");
-      
-      }
-  };
-
-  $(document).ready(function(){
-      
-    $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:10});
-      
-  });
-</script>
