@@ -1,0 +1,39 @@
+<%= form_for @user, html: { multipart: true } do |u| %>
+<div class="col-md-3 col-md-offset-1">
+    <% if @user.avatar.url %>
+      <%= image_tag @user.avatar.url, :class => "img-circle img-responsive" %>
+    <% else %>
+      <%= image_tag "user.jpg", :class => "img-circle img-responsive"  %>
+    <% end %>
+  <p>
+    <%= u.file_field :avatar %>
+  </p>
+</div>
+<div class="col-md-6 col-md-offset-2" >
+<table class="table table-user-information">
+  <tbody>
+    <tr>
+      <td><%= u.label :name, 'Name:' %></td>
+      <td><%= u.text_field :name %></td>
+    </tr>
+    <tr>
+      <td><%= u.label :surname, 'Surname:' %></td>
+      <td><%= u.text_field :surname %></td>
+    </tr>
+    <tr>
+      <td><%= u.label :email, 'Email:' %></td>
+      <td><%= u.text_field :email %></td>
+    </tr>
+    <tr>
+      <td><%= u.label :password, 'Password:' %></td>
+      <td><%= u.password_field :password %></td>
+    </tr>
+    <tr>
+      <td><%= u.label :password_confirmation, "Password confirmation:" %></td>
+      <td><%= u.password_field :password_confirmation %></td>
+    </tr>
+   </tbody>
+ </table>
+      <%= u.submit "Submit", class: "btn btn-primary" %>
+ </div>
+ <% end %>
